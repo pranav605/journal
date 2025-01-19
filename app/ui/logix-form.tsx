@@ -1,0 +1,31 @@
+'use client';
+
+import { Button } from "./button";
+
+export default function LoginForm() {
+    return (
+        <form className="grid grid-cols-1">
+            <label htmlFor="email" className="block">Email</label>
+            <input 
+                id="email"
+                type="email"
+                name="email"
+                className="text-white bg-gray-700 rounded h-10 mt-2 px-4 py-2 placeholder-gray-400" 
+                placeholder="Enter your email here"
+                required
+            ></input>
+            <label htmlFor="password" className="pt-4 block" >Password</label>
+            <input 
+                id="password" 
+                type="password"
+                name="password"
+                className="text-white bg-gray-700 rounded h-10 mt-2 px-4 py-2 placeholder-gray-400" 
+                placeholder="Enter your passowrd here"
+                required
+            ></input>
+            <Button className="mt-8 max-w-fit">
+                Log in
+            </Button>
+        </form>
+    );
+}

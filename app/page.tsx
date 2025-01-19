@@ -4,26 +4,47 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="min-h-screen bg-gray-900 text-gray-100">
+      <nav aria-label="Global" className="fixed z-50 bg-opacity-50 backdrop-blur-sm md:bg-opacity-100 md:backdrop-blur-none flex w-full items-center justify-between p-6 lg:px-8">
+        <div className="flex lg:flex-1">
+          <Link href="#" className="-m-1.5 p-1.5">
+            <Image
+              src={'/logo.png'}
+              width={100}
+              height={60}
+              alt="Journal"
+            />
+          </Link>
+        </div>
+
+        <div className="lg:flex lg:flex-1 lg:justify-end">
+          <Link
+              href="/login"
+              className="px-6 py-3 font-semibold text-gray-400 "
+            >
+              Log in <span aria-hidden="true">&rarr;</span>
+            </Link>
+        </div>
+      </nav>
       {/* Hero Section */}
       <div className="flex mx-auto h-screen justify-center items-center px-4 py-16">
         <div className="flex flex-col items-center text-center space-y-6">
-          <h1 className="text-5xl p-8 w-4/5 md:text-6xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+          <h1 className="text-3xl p-8 w-4/5 md:text-6xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
             Your stories, your memories, secure and with you forever – start journaling for free today
           </h1>
-          <p className="text-xl text-gray-400 max-w-2xl">
+          <p className="md:text-xl text-gray-400 max-w-2xl">
             Your personal space for self-reflection, growth, and mindful journaling.
             Start your journey today.
           </p>
           <div className="flex gap-4 mt-8">
             <Link
               href="/signup"
-              className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-300"
+              className="text-sm md:text-xl px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-300"
             >
               Get Started - It's Free
             </Link>
             <Link
               href="/demo"
-              className="px-6 py-3 bg-gray-800 text-gray-300 font-semibold rounded-lg hover:bg-gray-700 transition duration-300"
+              className="text-sm md:text-xl px-6 py-3 bg-gray-800 text-gray-300 font-semibold rounded-lg hover:bg-gray-700 transition duration-300"
             >
               View Demo
             </Link>
@@ -54,19 +75,19 @@ export default function Home() {
       <section className="bg-gray-900 py-20">
         <div className="flex flex-col justify-center items-center mx-auto px-4">
           <div className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent h-auto p-5">
-            <h1 className="text-5xl text-center font-bold ">Start your journey today</h1>
+            <h1 className="text-3xl md:text-5xl text-center font-bold ">Start your journey today</h1>
           </div>
-          <p className="text-xl text-gray-400 max-w-2xl text-center">Journaling is a proven way to completely change your life, especially when you stick with it over time. Each time you write you'll get unparalleled clarity and life perspective.</p>
+          <p className="text-base md:text-xl text-gray-400 max-w-2xl text-center">Journaling is a proven way to completely change your life, especially when you stick with it over time. Each time you write you'll get unparalleled clarity and life perspective.</p>
         </div>
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 pt-10">
             <div className="flex flex-col justify-center items-start">
-              <h2 className="text-3xl font-bold text-gray-400">1. Start Writing</h2>
-              <p className="text-xl text-gray-400 pt-3">All you have to do is start. Take 5 minutes to write in your journal about how you're feeling or reflect on the day.</p>
-              <h2 className="text-3xl font-bold text-gray-400 pt-8">2. Keep it going</h2>
-              <p className="text-xl text-gray-400 pt-3">The more you write the easier it will be. Set reminders to keep a regular daily, weekly, or monthly cadence.</p>
-              <h2 className="text-3xl font-bold text-gray-400 pt-8">3. Reflect and grow</h2>
-              <p className="text-xl text-gray-400 pt-3">Links to your entries will be sent to you in the future so you can get see through clear window into the past.</p>
+              <h2 className="text-base md:text-3xl font-bold text-gray-400">1. Start Writing</h2>
+              <p className="text-sm md:text-xl text-gray-400 pt-3">All you have to do is start. Take 5 minutes to write in your journal about how you're feeling or reflect on the day.</p>
+              <h2 className="text-base md:text-3xl font-bold text-gray-400 pt-8">2. Keep it going</h2>
+              <p className="text-sm md:text-xl text-gray-400 pt-3">The more you write the easier it will be. Set reminders to keep a regular daily, weekly, or monthly cadence.</p>
+              <h2 className="text-base md:text-3xl font-bold text-gray-400 pt-8">3. Reflect and grow</h2>
+              <p className="text-sm md:text-xl text-gray-400 pt-3">Links to your entries will be sent to you in the future so you can get see through clear window into the past.</p>
             </div>
             <div className="flex flex-col justify-center items-center">
               <Image
@@ -74,7 +95,7 @@ export default function Home() {
                 alt="Journal image"
                 width={600}
                 height={600}
-                className="rounded-xl"
+                className="h-2/3 md:h-auto rounded-xl"
               />
             </div>
           </div>
