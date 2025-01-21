@@ -1,10 +1,16 @@
 'use client';
 
+import { useActionState } from "react";
 import { Button } from "./button";
+import { authenticate } from "../lib/actions";
 
 export default function LoginForm() {
+    const [errorMessage, formAction, isPending] = useActionState(
+        authenticate,
+        undefined
+    )
     return (
-        <form className="grid grid-cols-1">
+        <form action={formAction} className="grid grid-cols-1">
             <label htmlFor="email" className="block">Email</label>
             <input 
                 id="email"
