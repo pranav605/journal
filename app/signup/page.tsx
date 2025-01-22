@@ -11,7 +11,7 @@ export default function SignUp() {
                 <div className="relative">
                     <div className="absolute -inset-4 rounded-md blur-md bg-gradient-to-br from-pink-500 via-cyan-500 to-violet-500 z-10"></div>
                     <Image
-                        src={'/girl2.jpg'}
+                        src={'/girl3.jpg'}
                         alt="Registration image"
                         width={500}
                         height={500}
