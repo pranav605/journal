@@ -9,7 +9,8 @@ export async function authenticate(
   formData: FormData,
 ) {
   try {
-    await signIn('credentials', formData);
+    const data = Object.fromEntries(formData.entries()); // Convert FormData to a plain object
+    await signIn('credentials', { redirectTo: '/dashboard', ...data });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

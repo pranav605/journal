@@ -24,7 +24,8 @@ export default async function NavBar() {
                 {session?.user ? 
                     <form action={async () =>{
                         'use server';
-                        await signOut();
+                        await signOut({redirectTo:'http://localhost:3000/'});
+                        
                     }}>
                         <Button className="px-6 py-3 font-semibold text-gray-400" >Sign out</Button>
                     </form>
