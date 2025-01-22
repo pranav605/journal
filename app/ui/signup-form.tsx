@@ -11,7 +11,7 @@ export default function SignUpForm() {
     const [selectOptions, setSelectOptions] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isPicking, setIsPicking] = useState(false);
-    const [formState, formAction] = useActionState(signUp, initialState)
+    const [formState, formAction] = useActionState<State | string, FormData>(signUp, initialState)
 
     async function getClientIp() {
         try {

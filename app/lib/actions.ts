@@ -13,7 +13,7 @@ export type State = {
         name?: string[];
         email?: string[];
         passowrd?: string[];
-        confirm_passowrd?: string[];
+        confirm_password?: string[];
         timezone?: string[];
     };
     message?: string | null;
@@ -53,14 +53,7 @@ export async function authenticate(
     }
 }
 
-// Define the schema for signup form validation
-const signupSchema = z.object({
-    email: z.string().email('Invalid email address.'),
-    password: z.string().min(6, 'Password must be at least 6 characters long.'),
-    // Add other fields as necessary
-});
-
-export async function signUp(prevState: State, formData: FormData) {
+export async function signUp(state: State | string, formData: FormData): Promise<string | State> {
     try {
 
         const validatedFields = FormSchema.safeParse({
@@ -83,7 +76,7 @@ export async function signUp(prevState: State, formData: FormData) {
 
         if (password !== confirm_password) {
             return {
-                errors: { confirm_password: 'Passwords do not match.' },
+                errors: { confirm_password: ['Passwords do not match.'] },
                 message: 'Password and Confirm Password do not match.',
             };
         }
@@ -101,6 +94,7 @@ export async function signUp(prevState: State, formData: FormData) {
             console.log(error);
 
             return {
+                errors: { email: [''] },
                 message: 'Database Error: Failed to Create User.',
             };
         }
