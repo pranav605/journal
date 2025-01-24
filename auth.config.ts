@@ -8,11 +8,12 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
+      const isImage = /\.(jpg|jpeg|png|gif|svg)$/.test(nextUrl.pathname);
+
       if (isOnDashboard) {
-        if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
-      } else if (isLoggedIn) {
-        return Response.redirect(new URL('/dashboard', nextUrl));
+      return isLoggedIn;
+      } else if (isLoggedIn && !isImage) {
+      return Response.redirect(new URL('/dashboard', nextUrl));
       }
       return true;
     },

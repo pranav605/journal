@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Card } from "./cards";
+import Link from "next/link";
 
 export default function CreateJournalForm() {
     const [isLocked, setIsLocked] = useState(false);
@@ -96,7 +97,10 @@ export default function CreateJournalForm() {
             </select>
             <Card title={formData.title} createdon={new Date().toISOString().split('T')[0]} isLocked={isLocked} template={parseInt(formData.image)} />
              
-            <button className="bg-blue-500 text-white rounded h-10 mt-2">Create Journal</button>
+            <div className="flex w-full justify-center items-center space-x-10">
+                <button className="bg-blue-500 w-1/2 text-white rounded h-10 px-4">Create Journal</button>
+                <Link href={'/dashboard'} className="bg-transparent w-1/2 border border-white text-white rounded h-10 px-4 flex items-center justify-center">Cancel</Link>
+            </div>
         </form>
     );
 }

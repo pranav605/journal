@@ -1,4 +1,5 @@
 import clsx from "clsx"
+import Link from "next/link"
 export default function CardsContainer() {
     return (
         <div className="flex justify-center items-center">
@@ -59,11 +60,11 @@ export function Card({ title, createdon, isLocked, template }: { title: string, 
 
 export function NewJounralCard({ title, createdon }: { title: string, createdon: string }) {
     return (
-        <div className="bg-gray-800 hover:cursor-pointer rounded-xl p-4 m-4 w-52 h-64 sm:w-52 sm:h-64 md:w-60 md:h-80 border-4 border-dotted border-gray-600 flex items-center justify-center">
+        <Link href={'/dashboard/createJournal'} className="bg-gray-800 hover:cursor-pointer rounded-xl p-4 m-4 w-52 h-64 sm:w-52 sm:h-64 md:w-60 md:h-80 border-4 border-dotted border-gray-600 flex items-center justify-center">
             <div className="text-center">
                 <h1 className="text-4xl">+</h1>
                 <p>Create a Journal</p>
             </div>
-        </div>
+        </Link>
     )
 }
