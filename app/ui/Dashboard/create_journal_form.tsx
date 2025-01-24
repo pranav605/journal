@@ -23,17 +23,17 @@ export default function CreateJournalForm() {
 
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         const { name, value, type, checked } = e.target as HTMLInputElement;
-        console.log(name, value, type, checked);
+        // console.log(name, value, type, checked);
 
         setFormData((prevData) => ({
             ...prevData,
-            [name]: type === 'checkbox' ? checked : value,
+            [name == 'locked_checkbox' ? 'locked' : name]: type === 'checkbox' ? checked : value,
         }));
     }
 
-    useEffect(() => {
-        console.log(formState)
-    }, [formState])
+    // useEffect(() => {
+    //     console.log(formState)
+    // }, [formState])
 
     return (
         <form action={formAction} className=" w-full md:w-1/2 bg-transparent grid grid-cols-1 space-y-4">
@@ -48,10 +48,10 @@ export default function CreateJournalForm() {
                 value={formData.title}
                 onChange={handleInputChange}
             />
-            <label htmlFor="locked" className="flex items-center space-x-2">
+            <label htmlFor="locked_checkbox" className="flex items-center space-x-2">
                 <input
-                    id="locked"
-                    name="locked"
+                    id="locked_checkbox"
+                    name="locked_checkbox"
                     type="checkbox"
                     className="h-5 w-5"
                     checked={formData.locked}

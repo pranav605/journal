@@ -39,9 +39,25 @@ export async function getTimeZoneByIP(ip: string) {
 
 export async function getJournals(id: string){
     try{
-        const data = await sql<Journal>`SELECT * FROM journals where id=${id};`
+        const data = await sql<Journal>`SELECT * FROM journals where user_id=${id};`
+        return data;
     } catch(error){
         console.error('Failed to fetch journals: ',error);
         throw new Error('Failed to fetch journals');
     }
 }   
+
+export async function getUserIdByEmail(email: string): Promise<string> {
+    try {
+        const result = await sql`
+            SELECT id FROM users WHERE email = ${email}
+        `;
+        if (result.rowCount && result.rowCount > 0) {
+            return result.rows[0].id;
+        }
+        return 'not found';
+    } catch (error) {
+        console.error('Error fetching user ID:', error);
+        return 'not found';
+    }
+}

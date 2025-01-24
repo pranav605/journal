@@ -7,7 +7,7 @@ import { z } from 'zod';
 import bcrypt from 'bcrypt';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-
+import { getUserIdByEmail } from './data';
 export type State = {
     errors?: {
         name?: string[];
@@ -133,7 +133,6 @@ export async function signUp(state: State | string, formData: FormData): Promise
 
 export async function addJournal(state: JournalForm | string, formData: FormData): Promise<string | JournalForm> {
     try {
-        console.log("Adding Journal...",formData);
         
         const validatedFields = JournalSchema.safeParse({
             title: formData.get('title'),
@@ -150,8 +149,6 @@ export async function addJournal(state: JournalForm | string, formData: FormData
             };
         }
 
-        console.log(validatedFields.data);
-        
 
         // Proceed with signup logic, e.g., calling an API or database
         const {title, date, template, locked, password} = validatedFields.data
@@ -178,8 +175,8 @@ export async function addJournal(state: JournalForm | string, formData: FormData
         // Insert data into the database
         try {
             await sql`
-            INSERT INTO journals (id, title, created_on, updated_on, locked, password, template)
-            VALUES (${id},${title}, ${date}, ${date}, ${locked === 'true'}, ${passwordFIeld}, ${parseInt(template)})
+            INSERT INTO journals ( title, created_on, updated_on, locked, password, template, user_id)
+            VALUES (${title}, ${date}, ${date}, ${locked === 'true'}, ${passwordFIeld}, ${parseInt(template)},${id})
             `;
         } catch (error) {
             // If a database error occurs, return a more specific error.
@@ -199,18 +196,4 @@ export async function addJournal(state: JournalForm | string, formData: FormData
         throw error; // Rethrow unexpected errors
     }
 
-}
-async function getUserIdByEmail(email: string): Promise<string> {
-    try {
-        const result = await sql`
-            SELECT id FROM users WHERE email = ${email}
-        `;
-        if (result.rowCount && result.rowCount > 0) {
-            return result.rows[0].id;
-        }
-        return 'not found';
-    } catch (error) {
-        console.error('Error fetching user ID:', error);
-        return 'not found';
-    }
 }

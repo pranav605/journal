@@ -1,19 +1,15 @@
+import { Journal } from "@/app/lib/defenitions"
 import clsx from "clsx"
 import Link from "next/link"
-export default function CardsContainer() {
+export default async function CardsContainer({ journals }: { journals: Journal[]}) {
+
     return (
         <div className="flex justify-center items-center">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols- lg:grid-cols-4 xl:grid-cols-5 gap-4 bg-gray-900 text-white ">
-                <Card title="Journal" createdon="2025-01-23" isLocked={true} template={1} />
-                <Card title="Journal" createdon="2025-01-23" isLocked={false} template={2} />
-                <Card title="Journal" createdon="2025-01-23" isLocked={true} template={3} />
-                <Card title="Journal" createdon="2025-01-23" isLocked={false} template={4} />
-                <Card title="Journal" createdon="2025-01-23" isLocked={true} template={5} />
-                <Card title="Journal" createdon="2025-01-23" isLocked={false} template={6} />
-                <Card title="Journal" createdon="2025-01-23" isLocked={true} template={7} />
-                <Card title="Journal" createdon="2025-01-23" isLocked={true} template={8} />
-                <Card title="Journal" createdon="2025-01-23" isLocked={true} template={9} />
-                <Card title="Journal" createdon="2025-01-23" isLocked={true} template={10} />
+                {journals.map((journal) => {
+                    const formattedDate = new Date(journal.created_on).toISOString().split('T')[0];
+                    return <Card key={journal.id} title={journal.title} createdon={formattedDate} isLocked={journal.locked} template={journal.template} />
+                })}
                 <NewJounralCard title="Journal" createdon="2025-01-23" />
             </div>
         </div>
@@ -22,7 +18,7 @@ export default function CardsContainer() {
 export function Card({ title, createdon, isLocked, template }: { title: string, createdon: string, isLocked: boolean, template: number }) {
     return (
         <div className="relative mx-auto group hover:cursor-pointer active:scale-95">
-            <div className={clsx("absolute inset-2 rounded-md blur-md bg-gradient-to-br from-pink-500 via-cyan-500 to-violet-500 z-10 opacity-0 md:group-hover:opacity-100 transition-opacity duration-300")}></div>
+            <div className={clsx("absolute inset-2 rounded-md blur-md  bg-gradient-to-br from-pink-500 via-cyan-500 to-violet-500 z-10 opacity-0 md:group-hover:opacity-100 transition-opacity duration-300")}></div>
             <div className={clsx("relative rounded-xl m-4 w-52 h-64 sm:w-52 sm:h-64 md:w-52 md:h-64 lg:w-60 lg:h-80 z-20 bg-cover bg-center",
                 { "bg-[url('/cover_1.jpg')] text-white": template === 1 },
                 { "bg-[url('/cover_2.jpg')] text-white": template === 2 },
@@ -37,6 +33,9 @@ export function Card({ title, createdon, isLocked, template }: { title: string, 
             )}>
                 <div className="p-10 flex flex-col justify-center items-center">
                     <h1 className="text-2xl truncate w-full text-center">{title}</h1>
+                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-gray-800 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        {title}
+                    </div>
                     <p>{createdon}</p>
                 </div>
                 {isLocked ? (
