@@ -1,11 +1,13 @@
+import CardsContainer from "../ui/Dashboard/cards"
 import NavBar from "../ui/navbar"
 
 export default function Dashboard() {
     return (
         <div>
             <NavBar/>
-            <div className="h-screen bg-gray-900 text-white flex justify-center items-center">
-                <h1 className="text-5xl">Dashboard</h1>
+            <div className=" bg-gray-900 mx-10 text-white ">
+                <CardsContainer/>
+                
             </div>
         </div>
     )

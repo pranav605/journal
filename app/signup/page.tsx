@@ -16,6 +16,7 @@ export default function SignUp() {
                         width={500}
                         height={500}
                         className="relative rounded z-20 w-auto h-auto scale-x-[-1] "
+                        priority={true}
                     />
                 </div>
                 <p className="pt-8">Sign up and begin your journey with Journal</p>

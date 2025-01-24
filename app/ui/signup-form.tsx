@@ -61,6 +61,7 @@ export default function SignUpForm() {
                 type="text"
                 className="text-white bg-gray-700 rounded h-10 mt-2 px-4 py-2 placeholder-gray-400"
                 placeholder="Name"
+                autoComplete="name"
                 required
             ></input>
             <label htmlFor="email">Email</label>
@@ -70,6 +71,7 @@ export default function SignUpForm() {
                 type="email"
                 className="text-white bg-gray-700 rounded h-10 mt-2 px-4 py-2 placeholder-gray-400"
                 placeholder="Email"
+                autoComplete="email"
                 required
             ></input>
             <label htmlFor="password">Password</label>
@@ -81,7 +83,7 @@ export default function SignUpForm() {
                 placeholder="Password"
                 required
             ></input>
-            <label htmlFor="confirm-password">Confirm Password</label>
+            <label htmlFor="confirm_password">Confirm Password</label>
             <input
                 id="confirm_password"
                 name="confirm_password"
