@@ -23,16 +23,16 @@ export function Card({ title, createdon, isLocked, template }: { title: string, 
         <div className="relative mx-auto group hover:cursor-pointer active:scale-95">
             <div className={clsx("absolute inset-2 rounded-md blur-md bg-gradient-to-br from-pink-500 via-cyan-500 to-violet-500 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300")}></div>
             <div className={clsx("relative rounded-xl m-4 w-52 h-64 sm:w-52 sm:h-64 md:w-52 md:h-64 lg:w-60 lg:h-80 z-20 bg-cover bg-center",
-                { "bg-[url('@/public/cover_1.jpg')] text-white": template === 1 },
-                { "bg-[url('@/public/cover_2.jpg')] text-white": template === 2 },
-                { "bg-[url('@/public/cover_3.jpg')] text-cyan-600": template === 3 },
-                { "bg-[url('@/public/cover_4.jpg')] text-orange-200": template === 4 },
-                { "bg-[url('@/public/cover_5.jpg')] text-white": template === 5 },
-                { "bg-[url('@/public/cover_6.jpg')] text-cyan-800": template === 6 },
-                { "bg-[url('@/public/cover_7.jpg')] text-green-950": template === 7 },
-                { "bg-[url('@/public/cover_8.jpg')] text-violet-200": template === 8 },
-                { "bg-[url('@/public/cover_9.jpg')] text-white": template === 9 },
-                { "bg-[url('@/public/cover_10.jpg')] text-white": template === 10 },
+                { "bg-[url('/cover_1.jpg')] text-white": template === 1 },
+                { "bg-[url('/cover_2.jpg')] text-white": template === 2 },
+                { "bg-[url('/cover_3.jpg')] text-cyan-600": template === 3 },
+                { "bg-[url('/cover_4.jpg')] text-orange-200": template === 4 },
+                { "bg-[url('/cover_5.jpg')] text-white": template === 5 },
+                { "bg-[url('/cover_6.jpg')] text-cyan-800": template === 6 },
+                { "bg-[url('/cover_7.jpg')] text-green-950": template === 7 },
+                { "bg-[url('/cover_8.jpg')] text-violet-200": template === 8 },
+                { "bg-[url('/cover_9.jpg')] text-white": template === 9 },
+                { "bg-[url('/cover_10.jpg')] text-white": template === 10 },
             )}>
                 <div className="p-10 flex flex-col justify-center items-center">
                     <h1 className="text-2xl truncate w-full text-center">{title}</h1>
