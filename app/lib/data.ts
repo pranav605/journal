@@ -1,3 +1,5 @@
+import { sql } from "@vercel/postgres";
+import { Journal } from "./defenitions";
 
 export async function getAllTimeZones(){
     try{
@@ -34,3 +36,12 @@ export async function getTimeZoneByIP(ip: string) {
         
     }
 }
+
+export async function getJournals(id: string){
+    try{
+        const data = await sql<Journal>`SELECT * FROM journals where id=${id};`
+    } catch(error){
+        console.error('Failed to fetch journals: ',error);
+        throw new Error('Failed to fetch journals');
+    }
+}   

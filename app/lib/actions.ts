@@ -1,6 +1,6 @@
 'use server';
 
-import { signIn } from '@/auth';
+import { auth, signIn } from '@/auth';
 import { sql } from '@vercel/postgres';
 import { AuthError } from 'next-auth';
 import { z } from 'zod';
@@ -19,8 +19,19 @@ export type State = {
     message?: string | null;
 };
 
+export type JournalForm = {
+    errors?: {
+        title?: string[];
+        date?: string[];
+        template?: string[];
+    };
+    message?: string | null;
+}
+
 const FormSchema = z.object({
-    name: z.string(),
+    name: z.string({
+        invalid_type_error: 'Please enter a valid name.',
+    }),
     email: z.string({
         invalid_type_error: 'Please enter a valid email id.',
     }).email('Invalid email address'),
@@ -29,9 +40,21 @@ const FormSchema = z.object({
     }).min(6, 'Password must be minimum 6 characters long').refine((data) => /[A-Z]/.test(data), {
         message: 'Password must contain at least one capital letter',
     }),
-    confirm_password: z.coerce.string(),
+    confirm_password: z.coerce.string({
+        invalid_type_error: 'Please re-enter the password.',
+    }),
     timezone: z.string(),
-})
+});
+
+const JournalSchema = z.object({
+    title: z.string({
+        invalid_type_error: 'Please enter a valid title.',
+    }),
+    locked: z.string(),
+    password: z.string(),
+    date: z.string(),
+    template: z.string(),
+});
 
 export async function authenticate(
     prevState: string | undefined,
@@ -105,5 +128,89 @@ export async function signUp(state: State | string, formData: FormData): Promise
             return error.errors.map(e => e.message).join(', '); // Return validation errors
         }
         throw error; // Rethrow unexpected errors
+    }
+}
+
+export async function addJournal(state: JournalForm | string, formData: FormData): Promise<string | JournalForm> {
+    try {
+        console.log("Adding Journal...",formData);
+        
+        const validatedFields = JournalSchema.safeParse({
+            title: formData.get('title'),
+            date: formData.get('date'),
+            template: formData.get('template'),
+            locked: formData.get('locked'),
+            password: formData.get('password'),
+        })
+
+        if (!validatedFields.success) {
+            return {
+                errors: validatedFields.error.flatten().fieldErrors,
+                message: 'Missing Fields. Failed to Create Journal.',
+            };
+        }
+
+        console.log(validatedFields.data);
+        
+
+        // Proceed with signup logic, e.g., calling an API or database
+        const {title, date, template, locked, password} = validatedFields.data
+
+        let passwordFIeld = '';
+        if (locked == 'true') {
+            passwordFIeld = await bcrypt.hash(password,10);
+        }
+        
+        const session = await auth();
+        console.log(session);
+        let id = '';
+        if (session && session.user && session.user.email) {
+            id = await getUserIdByEmail(session.user.email);
+        }
+
+        if(id === 'not found' || !id || id === ''){
+            return {
+                errors: { title: [''] },
+                message: 'User not found.',
+            };
+        }
+
+        // Insert data into the database
+        try {
+            await sql`
+            INSERT INTO journals (id, title, created_on, updated_on, locked, password, template)
+            VALUES (${id},${title}, ${date}, ${date}, ${locked === 'true'}, ${passwordFIeld}, ${parseInt(template)})
+            `;
+        } catch (error) {
+            // If a database error occurs, return a more specific error.
+            console.log(error);
+
+            return {
+                errors: { title: [''] },
+                message: 'Database Error: Failed to Create Journal.',
+            };
+        }
+        revalidatePath('/dashboard/createJournal');
+        redirect('/dashboard');
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            return error.errors.map(e => e.message).join(', '); // Return validation errors
+        }
+        throw error; // Rethrow unexpected errors
+    }
+
+}
+async function getUserIdByEmail(email: string): Promise<string> {
+    try {
+        const result = await sql`
+            SELECT id FROM users WHERE email = ${email}
+        `;
+        if (result.rowCount && result.rowCount > 0) {
+            return result.rows[0].id;
+        }
+        return 'not found';
+    } catch (error) {
+        console.error('Error fetching user ID:', error);
+        return 'not found';
     }
 }

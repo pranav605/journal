@@ -22,7 +22,7 @@ export default function CardsContainer() {
 export function Card({ title, createdon, isLocked, template }: { title: string, createdon: string, isLocked: boolean, template: number }) {
     return (
         <div className="relative mx-auto group hover:cursor-pointer active:scale-95">
-            <div className={clsx("absolute inset-2 rounded-md blur-md bg-gradient-to-br from-pink-500 via-cyan-500 to-violet-500 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300")}></div>
+            <div className={clsx("absolute inset-2 rounded-md blur-md bg-gradient-to-br from-pink-500 via-cyan-500 to-violet-500 z-10 opacity-0 md:group-hover:opacity-100 transition-opacity duration-300")}></div>
             <div className={clsx("relative rounded-xl m-4 w-52 h-64 sm:w-52 sm:h-64 md:w-52 md:h-64 lg:w-60 lg:h-80 z-20 bg-cover bg-center",
                 { "bg-[url('/cover_1.jpg')] text-white": template === 1 },
                 { "bg-[url('/cover_2.jpg')] text-white": template === 2 },

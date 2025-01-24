@@ -1,16 +1,14 @@
 'use client';
 
-import { useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Card } from "./cards";
 import Link from "next/link";
+import { addJournal, JournalForm } from "@/app/lib/actions";
 
 export default function CreateJournalForm() {
-    const [isLocked, setIsLocked] = useState(false);
+    const initialState: JournalForm = { message: '', errors: {} };
     const [showPassword, setShowPassword] = useState(false);
-
-    function handleCheckboxChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setIsLocked(e.target.checked);
-    }
+    const [formState, formAction] = useActionState<JournalForm | string, FormData>(addJournal, initialState);
 
     function togglePasswordVisibility() {
         setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -19,19 +17,26 @@ export default function CreateJournalForm() {
     const [formData, setFormData] = useState({
         title: "",
         password: "",
-        image: "1",
+        template: "1",
+        locked: false,
     });
 
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target as HTMLInputElement;
+        console.log(name, value, type, checked);
+
         setFormData((prevData) => ({
             ...prevData,
-            [name]: value,
+            [name]: type === 'checkbox' ? checked : value,
         }));
     }
 
+    useEffect(() => {
+        console.log(formState)
+    }, [formState])
+
     return (
-        <form className="p-10 w-full md:w-1/2 bg-transparent grid grid-cols-1 space-y-4">
+        <form action={formAction} className=" w-full md:w-1/2 bg-transparent grid grid-cols-1 space-y-4">
             <label htmlFor="title">Title</label>
             <input
                 id="title"
@@ -49,11 +54,13 @@ export default function CreateJournalForm() {
                     name="locked"
                     type="checkbox"
                     className="h-5 w-5"
-                    onChange={(e) => handleCheckboxChange(e)}
+                    checked={formData.locked}
+                    onChange={(e) => handleInputChange(e)}
                 />
                 <span>Use a password</span>
             </label>
-            {isLocked && (
+
+            {formData.locked && (
                 <>
                     <label htmlFor="password">Password</label>
                     <div className="relative">
@@ -76,27 +83,47 @@ export default function CreateJournalForm() {
                     </div>
                 </>
             )}
-            <label htmlFor="image">Select Image</label>
+            <label htmlFor="template">Select Image</label>
             <select
-                id="image"
-                name="image"
+                id="template"
+                name="template"
                 className="text-white bg-gray-700 rounded h-10 mt-2 px-4 py-2"
-                value={formData.image}
+                value={formData.template}
                 onChange={handleInputChange}
             >
-                <option value="1">Aquatic Blue</option>
-                <option value="2">Abstract Purple</option>
-                <option value="3">Summer Vibes</option>
-                <option value="4">Brown Diary</option>
-                <option value="5">Blue Diary</option>
-                <option value="6">Petals Diary</option>
-                <option value="7">Plants Diary</option>
-                <option value="8">Line art Diary</option>
-                <option value="9">Night Sky</option>
-                <option value="10">Space Explorer</option>
+                <option value={1}>Aquatic Blue</option>
+                <option value={2}>Abstract Purple</option>
+                <option value={3}>Summer Vibes</option>
+                <option value={4}>Brown Diary</option>
+                <option value={5}>Blue Diary</option>
+                <option value={6}>Petals Diary</option>
+                <option value={7}>Plants Diary</option>
+                <option value={8}>Line art Diary</option>
+                <option value={9}>Night Sky</option>
+                <option value={10}>Space Explorer</option>
             </select>
-            <Card title={formData.title} createdon={new Date().toISOString().split('T')[0]} isLocked={isLocked} template={parseInt(formData.image)} />
-             
+            <input
+                type="hidden"
+                id="date"
+                name="date"
+                value={new Date().toISOString().split('T')[0]}
+            />
+            {!formData.locked && (
+                <input
+                    type="hidden"
+                    id="password"
+                    name="password"
+                    value=""
+                />
+            )}
+            <input
+                type="hidden"
+                id="locked"
+                name="locked"
+                value={formData.locked ? "true" : "false"}
+            />
+            <Card title={formData.title} createdon={new Date().toISOString().split('T')[0]} isLocked={formData.locked} template={parseInt(formData.template)} />
+
             <div className="flex w-full justify-center items-center space-x-10">
                 <button className="bg-blue-500 w-1/2 text-white rounded h-10 px-4">Create Journal</button>
                 <Link href={'/dashboard'} className="bg-transparent w-1/2 border border-white text-white rounded h-10 px-4 flex items-center justify-center">Cancel</Link>
