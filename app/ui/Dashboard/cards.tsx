@@ -1,26 +1,42 @@
+'use client';
 import { Journal } from "@/app/lib/defenitions"
 import clsx from "clsx"
 import Link from "next/link"
-export default async function CardsContainer({ journals }: { journals: Journal[] }) {
+import { useState } from "react";
+import { PasswordModal } from "./password_model";
+export default function CardsContainer({ journals }: { journals: Journal[] }) {
+    const [showModal, setShowModal] = useState(false);
+    const [selectedJournalId, setSelectedJournalId] = useState<string | null>(null);
+
+    const handleCardClick = (journalId: string) => {
+        setSelectedJournalId(journalId);
+        setShowModal(true);
+    };
 
     return (
         <div className="flex justify-center items-center">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols- lg:grid-cols-4 xl:grid-cols-5 gap-4 bg-gray-900 text-white ">
                 {journals.map((journal) => {
                     const formattedDate = new Date(journal.created_on).toISOString().split('T')[0];
-                    if(journal.locked){
+                    if (journal.locked) {
                         return (
-                            <Card key={journal.id} title={journal.title} createdon={formattedDate} isLocked={journal.locked} template={journal.template} />
+                            <div key={journal.id} onClick={() => handleCardClick(journal.id)}>
+                                <Card title={journal.title} createdon={formattedDate} isLocked={journal.locked} template={journal.template} />
+                            </div>
                         )
-                    }else{
-                    return (
-                        <Link key={journal.id} href={`/dashboard/${journal.id}`}>
-                            <Card key={journal.id} title={journal.title} createdon={formattedDate} isLocked={journal.locked} template={journal.template} />
-                        </Link>)
-                        }
+                    } else {
+                        return (
+                            <Link key={journal.id} href={`/dashboard/${journal.id}`}>
+                                <Card title={journal.title} createdon={formattedDate} isLocked={journal.locked} template={journal.template} />
+                            </Link>
+                        )
+                    }
                 })}
                 <NewJounralCard title="Journal" createdon="2025-01-23" />
             </div>
+            {showModal && selectedJournalId && (
+                <PasswordModal journalId={selectedJournalId} onClose={() => setShowModal(false)} />
+            )}
         </div>
     )
 }

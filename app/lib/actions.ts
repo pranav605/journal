@@ -7,7 +7,7 @@ import { z } from 'zod';
 import bcrypt from 'bcrypt';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { getUserIdByEmail } from './data';
+import { getJournalPassword, getUserIdByEmail } from './data';
 export type State = {
     errors?: {
         name?: string[];
@@ -196,4 +196,15 @@ export async function addJournal(state: JournalForm | string, formData: FormData
         throw error; // Rethrow unexpected errors
     }
 
+}
+
+
+export async function verifyJournalPassword(journalId: string, password: string): Promise<boolean> {
+    const journal_password = await getJournalPassword(journalId);
+    
+    if (journal_password.length === 0) {
+        return false;
+    }
+    
+    return bcrypt.compare(password, journal_password);
 }

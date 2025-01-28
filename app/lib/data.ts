@@ -61,3 +61,30 @@ export async function getUserIdByEmail(email: string): Promise<string> {
         return 'not found';
     }
 }
+
+export async function getJournalPassword(journalId: string): Promise<string> {
+    try {
+        const result = await sql`
+            SELECT password FROM journals WHERE id = ${journalId}
+        `;
+        if (result.rowCount && result.rowCount > 0) {
+            return result.rows[0].password;
+        }
+        return '';
+    } catch (error) {
+        console.error('Error fetching journal password:', error);
+        return '';
+    }
+}
+
+export async function getJournalEntries(journalId: string): Promise<any[]> {
+    try {
+        const result = await sql`
+            SELECT * FROM entries WHERE journal_id = ${journalId}
+        `;
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching journal entries:', error);
+        return [];
+    }
+}
