@@ -1,7 +1,7 @@
 
 
 import { Suspense } from 'react';
-import CardWrapper from '@/app/ui/dashboard_ui/cards';
+import CardWrapper from '@/app/ui/dashboard/cards';
 import NewEntry from '../new/page';
 
 export default async function Page() {
