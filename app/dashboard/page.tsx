@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { getJournals, getUserIdByEmail } from "../lib/data";
-import CardsContainer from "../ui/dashboard/cards"
+import CardsContainer from "../ui/dashboard_ui/cards"
 import NavBar from "../ui/navbar"
 
 export default async function Dashboard() {

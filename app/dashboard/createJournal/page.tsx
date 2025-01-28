@@ -1,5 +1,5 @@
 
-import CreateJournalForm from "@/app/ui/dashboard/create_journal_form";
+import CreateJournalForm from "@/app/ui/dashboard_ui/create_journal_form";
 import NavBar from "@/app/ui/navbar";
 
 export default function CreateJournal() {

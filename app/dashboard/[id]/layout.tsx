@@ -1,5 +1,5 @@
 import { getJournalEntries } from '@/app/lib/data';
-import SideNav from '@/app/ui/dashboard/sidenav';
+import SideNav from '@/app/ui/dashboard_ui/sidenav';
 
 export default async function Layout({ children, params }: { children: React.ReactNode, params: Promise<{ id: string }> }) {
   const id = await params.then((data) => data.id);
