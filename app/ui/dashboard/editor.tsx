@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Inter, Roboto, Open_Sans, Lato, Montserrat, Oswald, Raleway, Ubuntu, Besley, Poppins, Merriweather, Nunito, Playfair_Display, PT_Serif, Noto_Sans, Fira_Sans, Josefin_Sans, Cabin, Cedarville_Cursive } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
-const roboto = Roboto({ style: 'italic', weight: '700' });
+const roboto = Roboto({ style: 'italic', weight: '700', subsets: ['latin'] });
 const openSans = Open_Sans({ subsets: ['latin'] });
 const lato = Lato({ subsets: ['latin'], weight: '300' });
 const montserrat = Montserrat({ subsets: ['latin'] });
