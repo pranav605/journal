@@ -4,7 +4,7 @@ import { Inter, Roboto, Open_Sans, Lato, Montserrat, Oswald, Raleway, Ubuntu, Be
 import clsx from 'clsx';
 import { addEntry, EntryForm, updateEntry } from '@/app/lib/actions';
 import { Button } from '../button';
-import { Entry } from '@/app/lib/defenitions';
+import { Entry } from '@/app/lib/definitions';
 
 const inter = Inter({ subsets: ['latin'] });
 const roboto = Roboto({ style: 'italic', weight: '700', subsets: ['latin'] });

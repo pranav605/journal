@@ -1,5 +1,5 @@
 'use client';
-import { Journal } from "@/app/lib/defenitions"
+import { Journal } from "@/app/lib/definitions"
 import clsx from "clsx"
 import Link from "next/link"
 import { useState } from "react";

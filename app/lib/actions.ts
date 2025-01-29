@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { getJournalPassword, getTimeByZone, getTimeZoneByJournal, getUserIdByEmail } from './data';
-import { Entry } from './defenitions';
+import { Entry } from './definitions';
 import { log } from 'console';
 export type State = {
     errors?: {

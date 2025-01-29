@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { Journal } from "./defenitions";
+import { Journal } from "./definitions";
 
 export async function getAllTimeZones(){
     try{
