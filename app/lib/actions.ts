@@ -7,7 +7,9 @@ import { z } from 'zod';
 import bcrypt from 'bcrypt';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { getJournalPassword, getUserIdByEmail } from './data';
+import { getJournalPassword, getTimeByZone, getTimeZoneByJournal, getUserIdByEmail } from './data';
+import { Entry } from './defenitions';
+import { log } from 'console';
 export type State = {
     errors?: {
         name?: string[];
@@ -18,6 +20,18 @@ export type State = {
     };
     message?: string | null;
 };
+
+export type EntryForm = {
+    errors?: {
+        content?: string[];
+        font?: string[];
+        text_color?: string[];
+        background_color?: string[];
+        background_image?: string[];
+        font_size?: string[];
+    };
+    message?: string | null;
+}
 
 export type JournalForm = {
     errors?: {
@@ -54,6 +68,19 @@ const JournalSchema = z.object({
     password: z.string(),
     date: z.string(),
     template: z.string(),
+});
+
+const EntrySchema = z.object({
+    content: z.string({
+        invalid_type_error: 'Please enter a valid content.',
+    }),
+    font: z.string(),
+    // created_on: z.string(),
+    // updated_on: z.string(),
+    text_color: z.string(),
+    background_color: z.string(),
+    background_image: z.string(),
+    font_size: z.string(),
 });
 
 export async function authenticate(
@@ -95,7 +122,7 @@ export async function signUp(state: State | string, formData: FormData): Promise
         }
 
         // Proceed with signup logic, e.g., calling an API or database
-        const {name, email, password, confirm_password, timezone} = validatedFields.data
+        const { name, email, password, confirm_password, timezone } = validatedFields.data
 
         if (password !== confirm_password) {
             return {
@@ -104,8 +131,8 @@ export async function signUp(state: State | string, formData: FormData): Promise
             };
         }
 
-        const encryptedPassword = await bcrypt.hash(password,10);
-        
+        const encryptedPassword = await bcrypt.hash(password, 10);
+
         // Insert data into the database
         try {
             await sql`
@@ -133,7 +160,7 @@ export async function signUp(state: State | string, formData: FormData): Promise
 
 export async function addJournal(state: JournalForm | string, formData: FormData): Promise<string | JournalForm> {
     try {
-        
+
         const validatedFields = JournalSchema.safeParse({
             title: formData.get('title'),
             date: formData.get('date'),
@@ -151,13 +178,13 @@ export async function addJournal(state: JournalForm | string, formData: FormData
 
 
         // Proceed with signup logic, e.g., calling an API or database
-        const {title, date, template, locked, password} = validatedFields.data
+        const { title, date, template, locked, password } = validatedFields.data
 
         let passwordFIeld = '';
         if (locked == 'true') {
-            passwordFIeld = await bcrypt.hash(password,10);
+            passwordFIeld = await bcrypt.hash(password, 10);
         }
-        
+
         const session = await auth();
         console.log(session);
         let id = '';
@@ -165,7 +192,7 @@ export async function addJournal(state: JournalForm | string, formData: FormData
             id = await getUserIdByEmail(session.user.email);
         }
 
-        if(id === 'not found' || !id || id === ''){
+        if (id === 'not found' || !id || id === '') {
             return {
                 errors: { title: [''] },
                 message: 'User not found.',
@@ -201,10 +228,96 @@ export async function addJournal(state: JournalForm | string, formData: FormData
 
 export async function verifyJournalPassword(journalId: string, password: string): Promise<boolean> {
     const journal_password = await getJournalPassword(journalId);
-    
+
     if (journal_password.length === 0) {
         return false;
     }
-    
+
     return bcrypt.compare(password, journal_password);
+}
+
+export async function addEntry(journalId: string, prevState: EntryForm | string, formData: FormData): Promise<string | EntryForm> {
+    try {
+        // console.log(journalId, formData);
+
+        const validatedFields = EntrySchema.safeParse({
+            content: formData.get('content'),
+            font: formData.get('font'),
+            text_color: formData.get('text_color'),
+            background_color: formData.get('background_color'),
+            background_image: formData.get('background_image'),
+            font_size: formData.get('font_size'),
+        });
+        if (!validatedFields.success) {
+            // log(validatedFields.error.flatten().fieldErrors);
+            return {
+                errors: validatedFields.error.flatten().fieldErrors,
+                message: 'Missing Fields. Failed to Create Journal.',
+            };
+        }
+        const { content, font, text_color, background_color, background_image, font_size } = validatedFields.data;
+        let timezone = await getTimeZoneByJournal(journalId);
+        let created_on = await getTimeByZone(timezone);
+        try {
+            await sql`
+            INSERT INTO entries (journal_id, content, created_on, updated_on, font, text_color, background_color, background_image, font_size)
+            VALUES (${journalId}, ${content}, ${created_on.dateTime}, ${created_on.dateTime}, ${font}, ${text_color}, ${background_color}, ${background_image}, ${Number(font_size)})
+        `;
+            // console.log(content, font, created_on.dateTime, created_on.dateTime, text_color, background_color, background_image, font_size);
+        } catch (error) {
+            return {
+                errors: {},
+                message: 'Entry added successfully',
+            }
+        }
+        revalidatePath(`/dashboard/${journalId}/new`)
+        redirect(`/dashboard/${journalId}/new`)
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to add entry');
+    }
+}
+
+export async function updateEntry(journalId: string, entryId: string, prevState: EntryForm | string, formData: FormData): Promise<string | EntryForm> {
+    try {
+
+        const validatedFields = EntrySchema.safeParse({
+            content: formData.get('content'),
+            font: formData.get('font'),
+            text_color: formData.get('text_color'),
+            background_color: formData.get('background_color'),
+            background_image: formData.get('background_image'),
+            font_size: formData.get('font_size'),
+        });
+        if (!validatedFields.success) {
+            // log(validatedFields.error.flatten().fieldErrors);
+            return {
+                errors: validatedFields.error.flatten().fieldErrors,
+                message: 'Missing Fields. Failed to Create Journal.',
+            };
+        }
+        const { content, font, text_color, background_color, background_image, font_size } = validatedFields.data;
+        let timezone = await getTimeZoneByJournal(journalId);
+        let updated_on = await getTimeByZone(timezone);
+        try {
+            await sql`
+            UPDATE entries
+            SET content=${content}, updated_on=${updated_on.dateTime}, font=${font}, text_color=${text_color}, background_color=${background_color}, background_image=${background_image}, font_size=${font_size}
+            WHERE journal_id=${journalId} and id=${entryId}
+        `
+        } catch (error) {
+
+
+            return {
+                errors: {},
+                message: "Updated entry"
+            }
+        }
+        revalidatePath(`/dashboard/${journalId}/${entryId}`)
+        return `/dashboard/${journalId}/${entryId}`;
+
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to add entry');
+    }
 }

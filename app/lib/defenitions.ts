@@ -9,6 +9,14 @@ export type Journal={
     user_id:string;
 }
 
+export type User = {
+    id: string;
+    name: string;
+    email: string;
+    password: string;
+};
+
+
 export type Entry={
     id:string;
     journal_id:string;
@@ -18,4 +26,6 @@ export type Entry={
     font:string;
     text_color:string;
     background_color:string;
+    background_image:string;
+    font_size:number;
 }

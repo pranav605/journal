@@ -46,7 +46,7 @@ export default function NavLinks({entries, journalId}: {entries: Entry[], journa
               },
             )}
           >
-            <p className="hidden md:block">{entry.created_on}</p>
+            <p className="hidden md:block">{new Date(entry.created_on).toDateString()}</p>
           </Link>
         );
       })}
