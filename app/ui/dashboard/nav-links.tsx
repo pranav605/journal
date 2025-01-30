@@ -35,7 +35,7 @@ export default function NavLinks({ entries, journalId }: { entries: Entry[], jou
           </option>
           {entries.map((entry: any) => (
             <option key={entry.id} value={entry.id}>
-              {new Date(entry.created_on).toDateString()}
+              {new Date(JSON.parse(entry.created_on).dateTime).toDateString()}
             </option>
           ))}
         </select>
