@@ -63,7 +63,7 @@ export default function NavLinks({ entries, journalId }: { entries: Entry[], jou
                 },
               )}
             >
-              <p className="block">{new Date(entry.created_on).toDateString()}</p>
+              <p className="block">{new Date(JSON.parse(entry.created_on).dateTime).toDateString()}</p>
             </Link>
           );
         })}

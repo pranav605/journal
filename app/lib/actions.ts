@@ -262,7 +262,7 @@ export async function addEntry(journalId: string, prevState: EntryForm | string,
         try {
             await sql`
             INSERT INTO entries (journal_id, content, created_on, updated_on, font, text_color, background_color, background_image, font_size)
-            VALUES (${journalId}, ${content}, ${created_on.dateTime}, ${created_on.dateTime}, ${font}, ${text_color}, ${background_color}, ${background_image}, ${Number(font_size)})
+            VALUES (${journalId}, ${content}, ${JSON.stringify(created_on)}, ${JSON.stringify(created_on)}, ${font}, ${text_color}, ${background_color}, ${background_image}, ${Number(font_size)})
         `;
         } catch (error) {
             console.log(error);
@@ -304,7 +304,7 @@ export async function updateEntry(journalId: string, entryId: string, prevState:
         try {
             await sql`
             UPDATE entries
-            SET content=${content}, updated_on=${updated_on.dateTime}, font=${font}, text_color=${text_color}, background_color=${background_color}, background_image=${background_image}, font_size=${font_size}
+            SET content=${content}, updated_on=${JSON.stringify(updated_on)}, font=${font}, text_color=${text_color}, background_color=${background_color}, background_image=${background_image}, font_size=${font_size}
             WHERE journal_id=${journalId} and id=${entryId}
         `
         } catch (error) {
