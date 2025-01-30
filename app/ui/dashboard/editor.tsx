@@ -66,6 +66,8 @@ export default function Editor({
       setBgColor(entry.background_color || '#121825');
       setTextColor(entry.text_color || '#ffffff');
       setFont(entry.font);
+      console.log(entry.font, cedarvilleCursive.className);
+      
       setFontSize(entry.font_size || 16);
       setContent(entry.content || '');
       setBgImage(entry.background_image || 'default');
