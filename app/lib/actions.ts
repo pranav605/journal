@@ -323,3 +323,16 @@ export async function updateEntry(journalId: string, entryId: string, prevState:
         throw new Error('Failed to add entry');
     }
 }
+
+export async function deleteEntry(entryId:string, journalId: string):Promise<string> {
+    try{
+        await sql`
+            DELETE FROM 
+        entries WHERE id=${entryId}
+           `
+           revalidatePath(`/dashboard/${journalId}/new`)
+        return "Success"
+    } catch(error){
+        return "Error"
+    }
+}

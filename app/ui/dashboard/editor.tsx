@@ -2,11 +2,12 @@
 import { useState, useEffect, useActionState } from 'react';
 import { Inter, Roboto, Open_Sans, Lato, Montserrat, Oswald, Raleway, Ubuntu, Besley, Poppins, Merriweather, Nunito, Playfair_Display, PT_Serif, Noto_Sans, Fira_Sans, Josefin_Sans, Cabin, Cedarville_Cursive, Playwrite_IN } from 'next/font/google';
 import clsx from 'clsx';
-import { addEntry, EntryForm, updateEntry } from '@/app/lib/actions';
+import { addEntry, deleteEntry, EntryForm, updateEntry } from '@/app/lib/actions';
 import { Button } from '../button';
 import { Entry } from '@/app/lib/definitions';
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { redirect } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 const roboto = Roboto({ style: 'italic', weight: '700', subsets: ['latin'] });
@@ -235,8 +236,31 @@ export default function Editor({
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
-        <Button className="w-fit">Save</Button>
-
+        <div className="flex justify-between items-center mt-4">
+          <Button className="w-fit">Save</Button>
+          {mode === 'edit' && (
+            <Button
+              type="button"
+              className="w-fit bg-red-500 hover:bg-red-700 text-white"
+              onClick={async () => {
+              if (mode === 'edit' && entryId) {
+                const confirmDelete = window.confirm("Are you sure you want to delete this entry?");
+                if (confirmDelete) {
+                console.log(`Entry with id ${entryId} deleted`);
+                const res = await deleteEntry(entryId, journalId);
+                if (res === 'Error') {
+                  alert("Unable to delete the entry, please try again");
+                } else {
+                  redirect(`/dashboard/${journalId}/new`);
+                }
+                }
+              }
+              }}
+            >
+              Delete entry
+            </Button>
+          )}
+        </div>
       </div>
     </form>
 
