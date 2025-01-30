@@ -11,7 +11,7 @@ export default async function Layout({ children, params }: { children: React.Rea
         <div className="w-full flex-none md:w-64">
           <SideNav entries={entries} journalId={id} />
         </div>
-        <div className="flex-grow  md:overflow-y-auto flex flex-col">
+        <div className="flex flex-col h-screen flex-grow  md:overflow-y-auto ">
           <div className="flex-grow">
             {children}
           </div>

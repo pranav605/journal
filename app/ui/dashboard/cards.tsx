@@ -26,7 +26,7 @@ export default function CardsContainer({ journals }: { journals: Journal[] }) {
                         )
                     } else {
                         return (
-                            <Link key={journal.id} href={`/dashboard/${journal.id}`}>
+                            <Link key={journal.id} href={`/dashboard/${journal.id}/new`}>
                                 <Card title={journal.title} createdon={formattedDate} isLocked={journal.locked} template={journal.template} />
                             </Link>
                         )

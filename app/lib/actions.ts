@@ -258,20 +258,22 @@ export async function addEntry(journalId: string, prevState: EntryForm | string,
         const { content, font, text_color, background_color, background_image, font_size } = validatedFields.data;
         let timezone = await getTimeZoneByJournal(journalId);
         let created_on = await getTimeByZone(timezone);
+        
         try {
             await sql`
             INSERT INTO entries (journal_id, content, created_on, updated_on, font, text_color, background_color, background_image, font_size)
             VALUES (${journalId}, ${content}, ${created_on.dateTime}, ${created_on.dateTime}, ${font}, ${text_color}, ${background_color}, ${background_image}, ${Number(font_size)})
         `;
-            // console.log(content, font, created_on.dateTime, created_on.dateTime, text_color, background_color, background_image, font_size);
         } catch (error) {
+            console.log(error);
+            
             return {
                 errors: {},
                 message: 'Entry added successfully',
             }
         }
         revalidatePath(`/dashboard/${journalId}/new`)
-        redirect(`/dashboard/${journalId}/new`)
+        return `/dashboard/${journalId}/new`;
     } catch (error) {
         console.error(error);
         throw new Error('Failed to add entry');

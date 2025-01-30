@@ -1,10 +1,12 @@
 'use client';
 import { useState, useEffect, useActionState } from 'react';
-import { Inter, Roboto, Open_Sans, Lato, Montserrat, Oswald, Raleway, Ubuntu, Besley, Poppins, Merriweather, Nunito, Playfair_Display, PT_Serif, Noto_Sans, Fira_Sans, Josefin_Sans, Cabin, Cedarville_Cursive } from 'next/font/google';
+import { Inter, Roboto, Open_Sans, Lato, Montserrat, Oswald, Raleway, Ubuntu, Besley, Poppins, Merriweather, Nunito, Playfair_Display, PT_Serif, Noto_Sans, Fira_Sans, Josefin_Sans, Cabin, Cedarville_Cursive, Playwrite_IN } from 'next/font/google';
 import clsx from 'clsx';
 import { addEntry, EntryForm, updateEntry } from '@/app/lib/actions';
 import { Button } from '../button';
 import { Entry } from '@/app/lib/definitions';
+import {AdjustmentsHorizontalIcon} from '@heroicons/react/24/solid';
+import {XMarkIcon} from '@heroicons/react/24/outline';
 
 const inter = Inter({ subsets: ['latin'] });
 const roboto = Roboto({ style: 'italic', weight: '700', subsets: ['latin'] });
@@ -25,6 +27,7 @@ const firaSans = Fira_Sans({ subsets: ['latin'], weight: '300' });
 const josefinSans = Josefin_Sans({ subsets: ['latin'] });
 const cabin = Cabin({ subsets: ['latin'] });
 const cedarvilleCursive = Cedarville_Cursive({ subsets: ['latin'], weight: '400' });
+const playwriteindia = Playwrite_IN({ weight: '200'})
 
 export default function Editor({
   entry,
@@ -46,7 +49,7 @@ export default function Editor({
   );
 
   useEffect(() => {
-    if (mode === 'edit' && typeof state === 'string') {
+    if ( typeof state === 'string') {
       window.location.href = state;
     }
   }, [state, mode]);
@@ -57,6 +60,7 @@ export default function Editor({
   const [fontSize, setFontSize] = useState(16);
   const [content, setContent] = useState(typeof entry === 'string' ? entry : '');
   const [bgImage, setBgImage] = useState('default');
+  const [isOpen, setIsOpen] = useState(false)
   useEffect(() => {
     if (mode === 'edit' && typeof entry !== 'string' && entry) {
       setBgColor(entry.background_color || '#121825');
@@ -82,9 +86,27 @@ export default function Editor({
         )
       }>
 
+        <div className="md:hidden w-full flex justify-between items-center bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg p-4 rounded-lg">
+          <span className="text-lg font-semibold">Settings</span>
+          <button onClick={(e) => {
+            e.preventDefault(); // Prevents the page refresh
+            setIsOpen((prev) => !prev); // Toggle menu state
+          }} className="text-xl">
+            {isOpen ? <XMarkIcon className='h-6 w-6'/> : <AdjustmentsHorizontalIcon className='h-6 w-6'/>}
+          </button>
+        </div>
+        <div className="mb-4 space-y-2 flex flex-col sm:flex-row justify-between items-center bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg px-0 md:px-4 md:py-2 rounded-lg shadow-md">
 
-        <div className="mb-4 space-y-2 flex flex-col sm:flex-row justify-between items-center bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg px-4 py-2 rounded-lg shadow-md">
-          <div className=" md:flex md:flex-wrap justify-between space-y-2 md:space-y-0 md:space-x-4 w-full">
+          <div className={clsx(`md:flex md:flex-wrap justify-between space-y-2 md:space-y-0 md:space-x-4 w-full transition-all delay-300 origin-top ease-in-out`,
+            { 'flex flex-col space-y-2 absolute top-0 left-0 w-full z-10 p-4': isOpen === true },
+            { 'hidden': isOpen === false },
+            { "bg-white text-black sm:bg-transparent": bgImage === 'beach' },
+            { "bg-gray-900 text-white sm:bg-transparent": bgImage === 'christmas' },
+            { "bg-white text-black sm:bg-transparent": bgImage === 'forest' },
+            { "bg-gray-900 text-white sm:bg-transparent": bgImage === 'night' },
+            { "bg-gray-900 sm:bg-transparent": bgImage === 'default' },
+
+          )}>
             <label className="flex items-center w-full md:w-auto">
               Notes Color:
               <input
@@ -149,26 +171,27 @@ export default function Editor({
                 <option value={josefinSans.className}>Josefin Sans</option>
                 <option value={cabin.className}>Cabin</option>
                 <option value={cedarvilleCursive.className}>Cedarville Cursive</option>
+                <option value={playwriteindia.className}>Playwrite India</option>
               </select>
             </label>
             <label className="flex items-center w-full md:w-auto">
               <span className="mr-3">Font Size:</span>
               <select
-              name='font_size'
-              id='font_size'
-              value={fontSize}
-              onChange={(e) => setFontSize(Number(e.target.value))}
-              className="bg-gray-50 h-8 p-0 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                name='font_size'
+                id='font_size'
+                value={fontSize}
+                onChange={(e) => setFontSize(Number(e.target.value))}
+                className="bg-gray-50 h-8 p-0 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
-              <option value={12}>12</option>
-              <option value={14}>14</option>
-              <option value={16}>16</option>
-              <option value={18}>18</option>
-              <option value={20}>20</option>
-              <option value={24}>24</option>
-              <option value={28}>28</option>
-              <option value={32}>32</option>
-              <option value={36}>36</option>
+                <option value={12}>12</option>
+                <option value={14}>14</option>
+                <option value={16}>16</option>
+                <option value={18}>18</option>
+                <option value={20}>20</option>
+                <option value={24}>24</option>
+                <option value={28}>28</option>
+                <option value={32}>32</option>
+                <option value={36}>36</option>
               </select>
             </label>
           </div>
@@ -181,7 +204,7 @@ export default function Editor({
             fontSize: fontSize,
           }}
           className={`w-full h-4/5 border-none outline-none line-height-7 p-2 box-border resize-none ${font}`}
-          placeholder="Type your notes here..."
+          placeholder="Type away..."
           id='content'
           name='content'
           value={content}
