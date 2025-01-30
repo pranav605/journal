@@ -65,9 +65,7 @@ export default function Editor({
     if (mode === 'edit' && typeof entry !== 'string' && entry) {
       setBgColor(entry.background_color || '#121825');
       setTextColor(entry.text_color || '#ffffff');
-      console.log(entry.font);
-      
-      setFont(entry.font || inter.className);
+      setFont(entry.font);
       setFontSize(entry.font_size || 16);
       setContent(entry.content || '');
       setBgImage(entry.background_image || 'default');
