@@ -5,8 +5,8 @@ import clsx from 'clsx';
 import { addEntry, EntryForm, updateEntry } from '@/app/lib/actions';
 import { Button } from '../button';
 import { Entry } from '@/app/lib/definitions';
-import {AdjustmentsHorizontalIcon} from '@heroicons/react/24/solid';
-import {XMarkIcon} from '@heroicons/react/24/outline';
+import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 const inter = Inter({ subsets: ['latin'] });
 const roboto = Roboto({ style: 'italic', weight: '700', subsets: ['latin'] });
@@ -27,7 +27,7 @@ const firaSans = Fira_Sans({ subsets: ['latin'], weight: '300' });
 const josefinSans = Josefin_Sans({ subsets: ['latin'] });
 const cabin = Cabin({ subsets: ['latin'] });
 const cedarvilleCursive = Cedarville_Cursive({ subsets: ['latin'], weight: '400' });
-const playwriteindia = Playwrite_IN({ weight: '200'})
+const playwriteindia = Playwrite_IN({ weight: '200' })
 
 export default function Editor({
   entry,
@@ -49,25 +49,47 @@ export default function Editor({
   );
 
   useEffect(() => {
-    if ( typeof state === 'string') {
+    if (typeof state === 'string') {
       window.location.href = state;
     }
   }, [state, mode]);
 
   const [bgColor, setBgColor] = useState('#121825');
   const [textColor, setTextColor] = useState('#ffffff');
-  const [font, setFont] = useState(inter.className);
+  const [font, setFont] = useState('Inter');
   const [fontSize, setFontSize] = useState(16);
   const [content, setContent] = useState(typeof entry === 'string' ? entry : '');
   const [bgImage, setBgImage] = useState('default');
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+
+  const fontList: { [key: string]: string } = {
+    "Inter": inter.className,
+    'Roboto': roboto.className,
+    'Open Sans': openSans.className,
+    'Lato': lato.className,
+    'Montserrat': montserrat.className,
+    'Oswald': oswald.className,
+    'Raleway': raleway.className,
+    'Ubuntu': ubuntu.className,
+    'Besley': besley.className,
+    'Poppins': poppins.className,
+    'Merriweather': merriweather.className,
+    'Nunito': nunito.className,
+    'Playfair Display': playfairDisplay.className,
+    'PT Serif': ptSerif.className,
+    'Noto Sans': notoSans.className,
+    'Fira Sans': firaSans.className,
+    'Josefin Sans': josefinSans.className,
+    'Cabin': cabin.className,
+    'Cedarville Cursive': cedarvilleCursive.className,
+    'Playwrite India': playwriteindia.className
+  };
+
   useEffect(() => {
     if (mode === 'edit' && typeof entry !== 'string' && entry) {
       setBgColor(entry.background_color || '#121825');
       setTextColor(entry.text_color || '#ffffff');
       setFont(entry.font);
-      console.log(entry.font, cedarvilleCursive.className);
-      
       setFontSize(entry.font_size || 16);
       setContent(entry.content || '');
       setBgImage(entry.background_image || 'default');
@@ -94,7 +116,7 @@ export default function Editor({
             e.preventDefault(); // Prevents the page refresh
             setIsOpen((prev) => !prev); // Toggle menu state
           }} className="text-xl">
-            {isOpen ? <XMarkIcon className='h-6 w-6'/> : <AdjustmentsHorizontalIcon className='h-6 w-6'/>}
+            {isOpen ? <XMarkIcon className='h-6 w-6' /> : <AdjustmentsHorizontalIcon className='h-6 w-6' />}
           </button>
         </div>
         <div className="mb-4 space-y-2 flex flex-col sm:flex-row justify-between items-center bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg px-0 md:px-4 md:py-2 rounded-lg shadow-md">
@@ -154,26 +176,27 @@ export default function Editor({
                 onChange={(e) => setFont(e.target.value)}
                 className="bg-gray-50 h-8 p-0 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
-                <option value={inter.className}>Inter</option>
-                <option value={roboto.className}>Roboto</option>
-                <option value={openSans.className}>Open Sans</option>
-                <option value={lato.className}>Lato</option>
-                <option value={montserrat.className}>Montserrat</option>
-                <option value={oswald.className}>Oswald</option>
-                <option value={raleway.className}>Raleway</option>
-                <option value={ubuntu.className}>Ubuntu</option>
-                <option value={besley.className}>Besley</option>
-                <option value={poppins.className}>Poppins</option>
-                <option value={merriweather.className}>Merriweather</option>
-                <option value={nunito.className}>Nunito</option>
-                <option value={playfairDisplay.className}>Playfair Display</option>
-                <option value={ptSerif.className}>PT Serif</option>
-                <option value={notoSans.className}>Noto Sans</option>
-                <option value={firaSans.className}>Fira Sans</option>
-                <option value={josefinSans.className}>Josefin Sans</option>
-                <option value={cabin.className}>Cabin</option>
-                <option value={cedarvilleCursive.className}>Cedarville Cursive</option>
-                <option value={playwriteindia.className}>Playwrite India</option>
+                <option value={'Inter'}>Inter</option>
+                <option value={'Roboto'}>Roboto</option>
+                <option value={'Open Sans'}>Open Sans</option>
+                <option value={'Lato'}>Lato</option>
+                <option value={'Montserrat'}>Montserrat</option>
+                <option value={'Oswald'}>Oswald</option>
+                <option value={'Raleway'}>Raleway</option>
+                <option value={'Ubuntu'}>Ubuntu</option>
+                <option value={'Besley'}>Besley</option>
+                <option value={'Poppins'}>Poppins</option>
+                <option value={'Merriweather'}>Merriweather</option>
+                <option value={'Nunito'}>Nunito</option>
+                <option value={'Playfair Display'}>Playfair Display</option>
+                <option value={'PT Serif'}>PT Serif</option>
+                <option value={'Noto Sans'}>Noto Sans</option>
+                <option value={'Fira Sans'}>Fira Sans</option>
+                <option value={'Josefin Sans'}>Josefin Sans</option>
+                <option value={'Cabin'}>Cabin</option>
+                <option value={'Cedarville Cursive'}>Cedarville Cursive</option>
+                <option value={'Playwrite India'}>Playwrite India</option>
+
               </select>
             </label>
             <label className="flex items-center w-full md:w-auto">
@@ -205,7 +228,7 @@ export default function Editor({
             color: textColor,
             fontSize: fontSize,
           }}
-          className={`w-full h-4/5 border-none outline-none line-height-7 p-2 box-border resize-none ${font}`}
+          className={`w-full h-4/5 border-none outline-none line-height-7 p-2 box-border resize-none ${fontList[font]}`}
           placeholder="Type away..."
           id='content'
           name='content'
