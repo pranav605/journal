@@ -63,6 +63,24 @@ export default function Editor({
   const [bgImage, setBgImage] = useState('default');
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)"); // 'md' breakpoint in Tailwind
+
+    const handleResize = () => {
+        if (mediaQuery.matches) {
+            setIsOpen(false); // Only close when screen is big
+        }
+    };
+
+    handleResize(); // Set initial state
+
+    mediaQuery.addEventListener("change", handleResize);
+
+    return () => {
+        mediaQuery.removeEventListener("change", handleResize);
+    };
+}, []);
+
   const fontList: { [key: string]: string } = {
     "Inter": inter.className,
     'Roboto': roboto.className,
@@ -112,7 +130,31 @@ export default function Editor({
       }>
 
         <div className="md:hidden w-full flex justify-between items-center bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg p-4 rounded-lg">
-          <span className="text-lg font-semibold">Settings</span>
+          <div className="flex space-x-2 items-center ">
+            <Button className="w-fit">Save</Button>
+            {mode === 'edit' && (
+              <Button
+                type="button"
+                className="w-fit bg-red-500 hover:bg-red-700 text-white"
+                onClick={async () => {
+                  if (mode === 'edit' && entryId) {
+                    const confirmDelete = window.confirm("Are you sure you want to delete this entry?");
+                    if (confirmDelete) {
+                      console.log(`Entry with id ${entryId} deleted`);
+                      const res = await deleteEntry(entryId, journalId);
+                      if (res === 'Error') {
+                        alert("Unable to delete the entry, please try again");
+                      } else {
+                        redirect(`/dashboard/${journalId}/new`);
+                      }
+                    }
+                  }
+                }}
+              >
+                Delete entry
+              </Button>
+            )}
+          </div>
           <button onClick={(e) => {
             e.preventDefault(); // Prevents the page refresh
             setIsOpen((prev) => !prev); // Toggle menu state
@@ -122,14 +164,15 @@ export default function Editor({
         </div>
         <div className="mb-4 space-y-2 flex flex-col sm:flex-row justify-between items-center bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg px-0 md:px-4 md:py-2 rounded-lg shadow-md">
 
+
           <div className={clsx(`md:flex md:flex-wrap justify-between space-y-2 md:space-y-0 md:space-x-4 w-full transition-all delay-300 origin-top ease-in-out`,
             { 'flex flex-col space-y-2 absolute top-0 left-0 w-full z-10 p-4': isOpen === true },
             { 'hidden': isOpen === false },
-            { "bg-white text-black sm:bg-transparent": bgImage === 'beach' },
-            { "bg-gray-900 text-white sm:bg-transparent": bgImage === 'christmas' },
-            { "bg-white text-black sm:bg-transparent": bgImage === 'forest' },
-            { "bg-gray-900 text-white sm:bg-transparent": bgImage === 'night' },
-            { "bg-gray-900 sm:bg-transparent": bgImage === 'default' },
+            { "bg-white text-black md:bg-transparent": bgImage === 'beach' },
+            { "bg-gray-900 text-white md:bg-transparent": bgImage === 'christmas' },
+            { "bg-white text-black md:bg-transparent": bgImage === 'forest' },
+            { "bg-gray-900 text-white md:bg-transparent": bgImage === 'night' },
+            { "bg-gray-900 md:bg-transparent": bgImage === 'default' },
 
           )}>
             <label className="flex items-center w-full md:w-auto">
@@ -236,25 +279,25 @@ export default function Editor({
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
-        <div className="flex justify-between items-center mt-4">
+        <div className="hidden md:flex justify-between items-center mt-4">
           <Button className="w-fit">Save</Button>
           {mode === 'edit' && (
             <Button
               type="button"
               className="w-fit bg-red-500 hover:bg-red-700 text-white"
               onClick={async () => {
-              if (mode === 'edit' && entryId) {
-                const confirmDelete = window.confirm("Are you sure you want to delete this entry?");
-                if (confirmDelete) {
-                console.log(`Entry with id ${entryId} deleted`);
-                const res = await deleteEntry(entryId, journalId);
-                if (res === 'Error') {
-                  alert("Unable to delete the entry, please try again");
-                } else {
-                  redirect(`/dashboard/${journalId}/new`);
+                if (mode === 'edit' && entryId) {
+                  const confirmDelete = window.confirm("Are you sure you want to delete this entry?");
+                  if (confirmDelete) {
+                    console.log(`Entry with id ${entryId} deleted`);
+                    const res = await deleteEntry(entryId, journalId);
+                    if (res === 'Error') {
+                      alert("Unable to delete the entry, please try again");
+                    } else {
+                      redirect(`/dashboard/${journalId}/new`);
+                    }
+                  }
                 }
-                }
-              }
               }}
             >
               Delete entry

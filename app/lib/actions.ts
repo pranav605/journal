@@ -336,3 +336,13 @@ export async function deleteEntry(entryId:string, journalId: string):Promise<str
         return "Error"
     }
 }
+
+export async function deleteJournal(journalId: string){
+    try{
+        await sql`
+            DELETE FROM jounral WHERE id=${journalId}
+        `
+    }catch(error){
+        return "Error"
+    }
+}

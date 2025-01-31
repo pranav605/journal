@@ -19,7 +19,7 @@ export default function NavLinks({ entries, journalId }: { entries: Entry[], jou
     <>
       <div className="flex w-full md:hidden">
         <select
-          className="w-full rounded-md bg-gray-800 text-white p-2 outline-none focus:outline-none"
+          className="w-full rounded-md bg-gray-800 text-white text-sm p-2 h-12 outline-none focus:outline-none"
           value={pathname === `/dashboard/${journalId}/new` ? 'new' : pathname.split('/').pop()}
           onChange={(e) => {
             let entryId = e.target.value;

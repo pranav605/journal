@@ -1,22 +1,24 @@
 import Link from 'next/link';
 import NavLinks from '@/app/ui/dashboard/nav-links';
-import { PowerIcon } from '@heroicons/react/24/outline';
+import { PowerIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { signOut } from '@/auth';
 
 export default function SideNav({ entries, journalId }: { entries: any, journalId: string }) {
     return (
-        <div className="flex h-full flex-col px-3 py-4 md:px-2">
+        <div className="flex h-full flex-row sm:flex-col px-3 py-4 md:px-2">
+            
+            <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2 overflow-y-auto">
             <Link
-                className="mb-2 flex items-end justify-start rounded-md bg-gray-800 p-3 text-white hover:bg-blue-700"
+                className="mb-2 sm:flex items-end justify-start rounded-md bg-gray-800 p-3 text-white hover:bg-blue-700"
                 href="/dashboard"
             >
-                <div className="w-32 text-sm font-semibold md:w-40">
+                <ArrowLeftIcon className='w-6 md:mr-2'/>
+                <div className="hidden md:block w-32 text-sm font-semibold md:w-40">
                     Back to Dashboard
                 </div>
             </Link>
-            <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2 overflow-y-auto">
                     <NavLinks entries={entries} journalId={journalId} />
-                    <form className='space-y-2 block md:hidden'
+                    <form className=' block md:hidden'
                         action={async () => {
                             'use server';
                             await signOut();
