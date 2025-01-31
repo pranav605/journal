@@ -123,7 +123,7 @@ export default function CreateJournalForm() {
                 value={formData.locked ? "true" : "false"}
             />
             <div className="flex justify-center items-center">
-            <Card title={formData.title} createdon={new Date().toISOString().split('T')[0]} isLocked={formData.locked} template={parseInt(formData.template)} />
+            <Card onDelete={()=>{}} title={formData.title} createdon={new Date().toISOString().split('T')[0]} isLocked={formData.locked} template={parseInt(formData.template)} />
             </div>
             <div className="flex w-full justify-center items-center space-x-10">
                 <button className="bg-blue-500 w-1/2 text-white rounded h-10 px-4">Create Journal</button>
