@@ -14,7 +14,7 @@ export function PasswordModal({ journalId, onClose }: { journalId: string, onClo
         const passwordMatch = await verifyJournalPassword(journalId, password);
         console.log(`Password match: ${passwordMatch}`);
         if (passwordMatch) {
-            redirect(`/dashboard/${journalId}`);
+            redirect(`/dashboard/${journalId}/new`);
         } else {
             setError("Invalid Password");
         }
