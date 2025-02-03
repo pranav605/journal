@@ -53,7 +53,7 @@ export default function SignUpForm() {
 
 
     return (
-        <form action={formAction} className="p-10 w-full bg-transparent grid grid-cols-1 space-y-4">
+        <form action={formAction} className="p-10 py-5 w-full bg-transparent grid grid-cols-1 space-y-4">
             <label htmlFor="name">Name</label>
             <input
                 id="name"
@@ -62,8 +62,17 @@ export default function SignUpForm() {
                 className="text-white bg-gray-700 rounded h-10 mt-2 px-4 py-2 placeholder-gray-400"
                 placeholder="Name"
                 autoComplete="name"
+                aria-describedby="name-error"
                 required
             ></input>
+            <div id="name-error" className={typeof formState !== 'string' && formState.errors?.name ? 'block':'hidden'} aria-live="polite" aria-atomic="true">
+                {typeof formState !== 'string' && formState.errors?.name &&
+                    formState.errors.name.map((error: string) => (
+                        <p className="mt-2 text-sm text-red-500" key={error}>
+                            {error}
+                        </p>
+                    ))}
+            </div>
             <label htmlFor="email">Email</label>
             <input
                 id="email"
@@ -72,8 +81,17 @@ export default function SignUpForm() {
                 className="text-white bg-gray-700 rounded h-10 mt-2 px-4 py-2 placeholder-gray-400"
                 placeholder="Email"
                 autoComplete="email"
+                aria-describedby="email-error"
                 required
             ></input>
+            <div id="email-error" className={typeof formState !== 'string' && formState.errors?.email ? 'block':'hidden'} aria-live="polite" aria-atomic="true">
+                {typeof formState !== 'string' && formState.errors?.email &&
+                    formState.errors.email.map((error: string) => (
+                        <p className="mt-2 text-sm text-red-500" key={error}>
+                            {error}
+                        </p>
+                    ))}
+            </div>
             <label htmlFor="password">Password</label>
             <input
                 id="password"
@@ -81,8 +99,17 @@ export default function SignUpForm() {
                 type="password"
                 className="text-white bg-gray-700 rounded h-10 mt-2 px-4 py-2 placeholder-gray-400"
                 placeholder="Password"
+                aria-describedby="password-error"
                 required
             ></input>
+            <div id="password-error" className={typeof formState !== 'string' && formState.errors?.password ? 'block':'hidden'} aria-live="polite" aria-atomic="true">
+                {typeof formState !== 'string' && formState.errors?.password &&
+                    formState.errors.password.map((error: string) => (
+                        <p className="mt-2 text-sm text-red-500" key={error}>
+                            {error}
+                        </p>
+                    ))}
+            </div>
             <label htmlFor="confirm_password">Confirm Password</label>
             <input
                 id="confirm_password"
@@ -90,8 +117,17 @@ export default function SignUpForm() {
                 type="password"
                 className="text-white bg-gray-700 rounded h-10 mt-2 px-4 py-2 placeholder-gray-400"
                 placeholder="Confirm Password"
+                aria-describedby="confirm-password-error"
                 required
             ></input>
+            <div id="confirm-password-error" className={typeof formState !== 'string' && formState.errors?.confirm_password ? 'block':'hidden'} aria-live="polite" aria-atomic="true">
+                {typeof formState !== 'string' && formState.errors?.confirm_password &&
+                    formState.errors.confirm_password.map((error: string) => (
+                        <p className="mt-2 text-sm text-red-500" key={error}>
+                            {error}
+                        </p>
+                    ))}
+            </div>
             <div className="flex justify-between items-center">
                 <label htmlFor="timezone">Time Zone</label>
                 <div className="relative flex items-center gap-2">
@@ -108,7 +144,8 @@ export default function SignUpForm() {
             <select
                 id="timezone"
                 name="timezone"
-                defaultValue={isLoading?'':''}
+                defaultValue={isLoading ? '' : ''}
+                aria-describedby="timezone-error"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
             >
@@ -119,6 +156,14 @@ export default function SignUpForm() {
                     <option value={timezone} key={i}>{timezone}</option>
                 ))}
             </select>
+            <div id="timezone-error" className={typeof formState !== 'string' && formState.errors?.timezone ? 'block':'hidden'} aria-live="polite" aria-atomic="true">
+                {typeof formState !== 'string' && formState.errors?.timezone &&
+                    formState.errors.timezone.map((error: string) => (
+                        <p className="mt-2 text-sm text-red-500" key={error}>
+                            {error}
+                        </p>
+                    ))}
+            </div>
             <Button className="w-fit">Sign up</Button>
         </form>
     )

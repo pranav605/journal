@@ -14,7 +14,7 @@ export type State = {
     errors?: {
         name?: string[];
         email?: string[];
-        passowrd?: string[];
+        password?: string[];
         confirm_password?: string[];
         timezone?: string[];
     };
@@ -45,6 +45,8 @@ export type JournalForm = {
 const FormSchema = z.object({
     name: z.string({
         invalid_type_error: 'Please enter a valid name.',
+    }).min(4,"Name must be minimum 4 characters long").refine((data)=>/[a-zA-Z]/.test(data),{
+        message: "Name must contain at least one letter"
     }),
     email: z.string({
         invalid_type_error: 'Please enter a valid email id.',
@@ -117,7 +119,7 @@ export async function signUp(state: State | string, formData: FormData): Promise
         if (!validatedFields.success) {
             return {
                 errors: validatedFields.error.flatten().fieldErrors,
-                message: 'Missing Fields. Failed to Create Invoice.',
+                message: 'Missing Fields. Failed to SignUp',
             };
         }
 
