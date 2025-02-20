@@ -124,6 +124,10 @@ export default function Editor({
           { "bg-[url('/christmas.jpg')] text-white": bgImage === 'christmas' },
           { "bg-[url('/forest.jpg')] text-black": bgImage === 'forest' },
           { "bg-[url('/night.jpg')] text-white": bgImage === 'night' },
+          { "bg-[url('/floral.jpg')] text-white": bgImage === 'floral' },
+          { "bg-[url('/clouds.jpg')] text-white": bgImage === 'clouds' },
+          { "bg-[url('/mythical.jpg')] text-white": bgImage === 'mythical' },
+          { "bg-[url('/pirate.jpg')] text-white": bgImage === 'pirate' },
           { "bg-gray-900": bgImage === 'default' },
 
         )
@@ -209,7 +213,11 @@ export default function Editor({
                 <option value="beach">Beach</option>
                 <option value="christmas">Christmas</option>
                 <option value="forest">Forest</option>
+                <option value="floral">Floral</option>
                 <option value="night">Night</option>
+                <option value="clouds">Clouds</option>
+                <option value="mythical">Mythical</option>
+                <option value="pirate">Pirate</option>
               </select>
             </label>
             <label className="flex items-center w-full md:w-auto">
@@ -220,26 +228,26 @@ export default function Editor({
                 onChange={(e) => setFont(e.target.value)}
                 className="bg-gray-50 h-8 p-0 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
-                <option value={'Inter'}>Inter</option>
-                <option value={'Roboto'}>Roboto</option>
-                <option value={'Open Sans'}>Open Sans</option>
-                <option value={'Lato'}>Lato</option>
-                <option value={'Montserrat'}>Montserrat</option>
-                <option value={'Oswald'}>Oswald</option>
-                <option value={'Raleway'}>Raleway</option>
-                <option value={'Ubuntu'}>Ubuntu</option>
-                <option value={'Besley'}>Besley</option>
-                <option value={'Poppins'}>Poppins</option>
-                <option value={'Merriweather'}>Merriweather</option>
-                <option value={'Nunito'}>Nunito</option>
-                <option value={'Playfair Display'}>Playfair Display</option>
-                <option value={'PT Serif'}>PT Serif</option>
-                <option value={'Noto Sans'}>Noto Sans</option>
-                <option value={'Fira Sans'}>Fira Sans</option>
-                <option value={'Josefin Sans'}>Josefin Sans</option>
-                <option value={'Cabin'}>Cabin</option>
-                <option value={'Cedarville Cursive'}>Cedarville Cursive</option>
-                <option value={'Playwrite India'}>Playwrite India</option>
+                <option className={` ${fontList['Inter']}`} value={'Inter'}>Inter</option>
+                <option className={` ${fontList['Roboto']}`} value={'Roboto'}>Roboto</option>
+                <option className={` ${fontList['Open Sans']}`} value={'Open Sans'}>Open Sans</option>
+                <option className={` ${fontList['Lato']}`} value={'Lato'}>Lato</option>
+                <option className={` ${fontList['Montserrat']}`} value={'Montserrat'}>Montserrat</option>
+                <option className={` ${fontList['Oswald']}`} value={'Oswald'}>Oswald</option>
+                <option className={` ${fontList['Raleway']}`} value={'Raleway'}>Raleway</option>
+                <option className={` ${fontList['Ubuntu']}`} value={'Ubuntu'}>Ubuntu</option>
+                <option className={` ${fontList['Besley']}`} value={'Besley'}>Besley</option>
+                <option className={` ${fontList['Poppins']}`} value={'Poppins'}>Poppins</option>
+                <option className={` ${fontList['Merriweather']}`} value={'Merriweather'}>Merriweather</option>
+                <option className={` ${fontList['Nunito']}`} value={'Nunito'}>Nunito</option>
+                <option className={` ${fontList['Playfair Display']}`} value={'Playfair Display'}>Playfair Display</option>
+                <option className={` ${fontList['PT Serif']}`} value={'PT Serif'}>PT Serif</option>
+                <option className={` ${fontList['Noto Sans']}`} value={'Noto Sans'}>Noto Sans</option>
+                <option className={` ${fontList['Fira Sans']}`} value={'Fira Sans'}>Fira Sans</option>
+                <option className={` ${fontList['Josefin Sans']}`} value={'Josefin Sans'}>Josefin Sans</option>
+                <option className={` ${fontList['Cabin']}`} value={'Cabin'}>Cabin</option>
+                <option className={` ${fontList['Cedarville Cursive']}`} value={'Cedarville Cursive'}>Cedarville Cursive</option>
+                <option className={` ${fontList['Playwrite India']}`} value={'Playwrite India'}>Playwrite India</option>
 
               </select>
             </label>

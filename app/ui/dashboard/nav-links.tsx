@@ -33,7 +33,7 @@ export default function NavLinks({ entries, journalId }: { entries: Entry[], jou
           <option key={'new'} value={'new'}>
             New
           </option>
-          {entries.map((entry: any) => (
+          {entries.sort((a, b) => new Date(JSON.parse(b.created_on).dateTime).getTime() - new Date(JSON.parse(a.created_on).dateTime).getTime()).map((entry: any) => (
             <option key={entry.id} value={entry.id}>
               {new Date(JSON.parse(entry.created_on).dateTime).toDateString()}
             </option>

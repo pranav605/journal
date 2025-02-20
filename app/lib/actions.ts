@@ -74,7 +74,7 @@ const JournalSchema = z.object({
 
 const EntrySchema = z.object({
     content: z.string({
-        invalid_type_error: 'Please enter a valid content.',
+        invalid_type_error: 'Please enter valid content.',
     }),
     font: z.string(),
     // created_on: z.string(),
@@ -297,7 +297,7 @@ export async function updateEntry(journalId: string, entryId: string, prevState:
             // log(validatedFields.error.flatten().fieldErrors);
             return {
                 errors: validatedFields.error.flatten().fieldErrors,
-                message: 'Missing Fields. Failed to Create Journal.',
+                message: 'Missing Fields. Failed to Update Journal.',
             };
         }
         const { content, font, text_color, background_color, background_image, font_size } = validatedFields.data;
@@ -322,7 +322,7 @@ export async function updateEntry(journalId: string, entryId: string, prevState:
 
     } catch (error) {
         console.error(error);
-        throw new Error('Failed to add entry');
+        throw new Error('Failed to update entry');
     }
 }
 
