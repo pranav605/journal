@@ -144,7 +144,6 @@ export default function Editor({
                   if (mode === 'edit' && entryId) {
                     const confirmDelete = window.confirm("Are you sure you want to delete this entry?");
                     if (confirmDelete) {
-                      console.log(`Entry with id ${entryId} deleted`);
                       const res = await deleteEntry(entryId, journalId);
                       if (res === 'Error') {
                         alert("Unable to delete the entry, please try again");

@@ -5,7 +5,7 @@ import LoginForm from "../ui/login-form";
 export default function Page() {
     return (
         <div className="flex flex-col justify-center items-center h-screen bg-gray-900 ">
-            <div className="bg-transparent rounded-xl bg-gradient-to-b from-blue-400 to-purple-500 bg-clip-border p-1 h-fill w-4/5 md:w-1/4">
+            <div className="bg-transparent rounded-xl bg-gradient-to-b from-blue-400 to-purple-500 bg-clip-border p-1 h-fill w-4/5 sm:w-3/5 md:w-3/5">
                 <div className="bg-gray-900 h-full p-10 rounded-xl">
                     <LoginForm />
                     <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>

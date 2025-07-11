@@ -11,7 +11,7 @@ export default function SignUpForm() {
     const [selectOptions, setSelectOptions] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isPicking, setIsPicking] = useState(false);
-    const [formState, formAction] = useActionState<State | string, FormData>(signUp, initialState)
+    const [formState, formAction] = useActionState<State | string, FormData>(signUp, initialState);
 
     async function getClientIp() {
         try {
@@ -65,7 +65,7 @@ export default function SignUpForm() {
                 aria-describedby="name-error"
                 required
             ></input>
-            <div id="name-error" className={typeof formState !== 'string' && formState.errors?.name ? 'block':'hidden'} aria-live="polite" aria-atomic="true">
+            <div id="name-error" className={typeof formState !== 'string' && formState.errors?.name ? 'block' : 'hidden'} aria-live="polite" aria-atomic="true">
                 {typeof formState !== 'string' && formState.errors?.name &&
                     formState.errors.name.map((error: string) => (
                         <p className="mt-2 text-sm text-red-500" key={error}>
@@ -84,7 +84,7 @@ export default function SignUpForm() {
                 aria-describedby="email-error"
                 required
             ></input>
-            <div id="email-error" className={typeof formState !== 'string' && formState.errors?.email ? 'block':'hidden'} aria-live="polite" aria-atomic="true">
+            <div id="email-error" className={typeof formState !== 'string' && formState.errors?.email ? 'block' : 'hidden'} aria-live="polite" aria-atomic="true">
                 {typeof formState !== 'string' && formState.errors?.email &&
                     formState.errors.email.map((error: string) => (
                         <p className="mt-2 text-sm text-red-500" key={error}>
@@ -102,7 +102,7 @@ export default function SignUpForm() {
                 aria-describedby="password-error"
                 required
             ></input>
-            <div id="password-error" className={typeof formState !== 'string' && formState.errors?.password ? 'block':'hidden'} aria-live="polite" aria-atomic="true">
+            <div id="password-error" className={typeof formState !== 'string' && formState.errors?.password ? 'block' : 'hidden'} aria-live="polite" aria-atomic="true">
                 {typeof formState !== 'string' && formState.errors?.password &&
                     formState.errors.password.map((error: string) => (
                         <p className="mt-2 text-sm text-red-500" key={error}>
@@ -120,7 +120,7 @@ export default function SignUpForm() {
                 aria-describedby="confirm-password-error"
                 required
             ></input>
-            <div id="confirm-password-error" className={typeof formState !== 'string' && formState.errors?.confirm_password ? 'block':'hidden'} aria-live="polite" aria-atomic="true">
+            <div id="confirm-password-error" className={typeof formState !== 'string' && formState.errors?.confirm_password ? 'block' : 'hidden'} aria-live="polite" aria-atomic="true">
                 {typeof formState !== 'string' && formState.errors?.confirm_password &&
                     formState.errors.confirm_password.map((error: string) => (
                         <p className="mt-2 text-sm text-red-500" key={error}>
@@ -156,7 +156,7 @@ export default function SignUpForm() {
                     <option value={timezone} key={i}>{timezone}</option>
                 ))}
             </select>
-            <div id="timezone-error" className={typeof formState !== 'string' && formState.errors?.timezone ? 'block':'hidden'} aria-live="polite" aria-atomic="true">
+            <div id="timezone-error" className={typeof formState !== 'string' && formState.errors?.timezone ? 'block' : 'hidden'} aria-live="polite" aria-atomic="true">
                 {typeof formState !== 'string' && formState.errors?.timezone &&
                     formState.errors.timezone.map((error: string) => (
                         <p className="mt-2 text-sm text-red-500" key={error}>

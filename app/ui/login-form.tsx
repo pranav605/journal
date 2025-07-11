@@ -30,11 +30,11 @@ export default function LoginForm() {
         placeholder="Enter your passowrd here"
         required
       ></input>
-      <div className="flex flex-row justify-between items-center mt-8">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center mt-8">
         <Button className=" max-w-fit">
           Log in
         </Button>
-        <div className="flex flex-col text-sm justify-center">
+        <div className="flex flex-col text-sm justify-center pt-5 sm:pt-0">
           <p>Test Credentials:</p>
           <p>Username: test@email.com</p>
           <p>Password: Test@123</p>
